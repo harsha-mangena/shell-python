@@ -28,7 +28,7 @@ def handle_pwd(args):
     print(os.getcwd())
 
 def handle_cd(args):
-    dir = args[1]
+    dir = args[0]
 
     try:
         os.chdir(path=dir)

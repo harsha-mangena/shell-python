@@ -1,56 +1,51 @@
-import sys
 import os
+import subprocess
+import sys
+from typing import Optional
+
+def locate_executable(command) -> Optional[str]:
+    path = os.environ.get("PATH", "")
+    for directory in path.split(":"):
+        file_path = os.path.join(directory, command)
+        if os.path.isfile(file_path) and os.access(file_path, os.X_OK):
+            return file_path
+        
+def handle_exit(args):
+    sys.exit(int(args[0]) if args else 0)
+
+def handle_echo(args):
+    print(" ".join(args))
+
+def handle_type(args):
+    if args[0] in builtins:
+        print(f"{args[0]} is a shell builtin")
+    elif executable := locate_executable(args[0]):
+        print(f"{args[0]} is {executable}")
+    else:
+        print(f"{args[0]} not found")
+
+
+builtins = {
+    "exit": handle_exit,
+    "echo": handle_echo,
+    "type": handle_type,
+}
+
 
 def main():
-    # Define built-in commands
-    builtin_cmds = ["echo", "exit", "type"]
-
-    # Get the system PATH environment variable
-    PATH = os.environ.get("PATH")
-
     while True:
-        # Prompt for user input
         sys.stdout.write("$ ")
         sys.stdout.flush()
-        user_input = input()
-
-        # "exit 0"
-        if user_input == "exit 0":
-            break
-
-        # "echo" command
-        if user_input.startswith("echo"):
-            content = user_input.split(" ", 1)
-            if len(content) > 1:
-                sys.stdout.write(content[1] + "\n")
-            else:
-                sys.stdout.write("\n")
-            sys.stdout.flush()
+        command, *args = input().split(" ")
+        if command in builtins:
+            builtins[command](args)
             continue
-
-        # "type" command
-        if user_input.startswith("type"):
-            cmd = user_input.split(" ")[1]
-            cmd_path = None
-            paths = PATH.split(":")
-
-            # Search for the command in the system PATH
-            for path in paths:
-                if os.path.isfile(f"{path}/{cmd}"):
-                    cmd_path = f"{path}/{cmd}"
-                    break
-
-            if cmd in builtin_cmds:
-                sys.stdout.write(f"{cmd} is a shell builtin\n")
-            elif cmd_path:
-                sys.stdout.write(f"{cmd} is {cmd_path}\n")
-            else:
-                sys.stdout.write(f"{cmd} not found\n")
-            sys.stdout.flush()
-            continue
-
-        sys.stdout.write(f"{user_input}: command not found\n")
+        elif executable := locate_executable(command):
+            subprocess.run([executable, *args])
+        else:
+            print(f"{command}: command not found")
         sys.stdout.flush()
+
 
 if __name__ == "__main__":
     main()

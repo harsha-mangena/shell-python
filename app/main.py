@@ -1,4 +1,5 @@
 import os
+from os import getcwd, chdir
 import subprocess
 import sys
 from typing import Optional
@@ -25,13 +26,15 @@ def handle_type(args):
         print(f"{args[0]} not found")
 
 def handle_pwd(args):
-    print(os.getcwd())
+    print(getcwd())
 
 def handle_cd(args):
+    path = args[0] if len(args[0]) >= 2 else "."
     try:
-        os.chdir(" ".join(args[1:]))
+        chdir(path=path)
+        
     except FileNotFoundError:
-        print(" ".join(args) + ": No such file or directory")
+        print(f"cd: {path}: No such file or directory")
 
 
 

@@ -3,31 +3,21 @@ import sys
 
 def main():
 
-    # __pre_built_cmds = {
-    #     "exit 0" : True,
-
-    # }
-
-    # Wait for user input
     while True:
         sys.stdout.write("$ ")
         sys.stdout.flush()
-        cmd = input()
 
-        # Break
-        if cmd == "exit 0":
-            break
-    
-        # Echo
-        if cmd.startswith("echo "):
-            print(cmd[4:])
+        user_input = input()
+        args = user_input.split(" ")
 
-        print("{}: command not found".format(cmd))
-        continue
+        # exit
+        if args[0] == "exit":
+            if args[1] == "0":
+                break
         
-
-
-
+        # echo
+        elif args[0] == "echo":
+            print(" ".join(args))
 
 if __name__ == "__main__":
     main()

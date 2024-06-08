@@ -24,11 +24,25 @@ def handle_type(args):
     else:
         print(f"{args[0]} not found")
 
+def handle_pwd(args):
+    print(os.getcwd())
+
+def handle_cd(args):
+    dir = args[1]
+
+    try:
+        os.chdir(path=dir)
+    except FileNotFoundError:
+        print("cd: {}: No Such file or directory")
+
+
 
 builtins = {
     "exit": handle_exit,
     "echo": handle_echo,
     "type": handle_type,
+    "pwd": handle_pwd,
+    "cd": handle_cd,
 }
 
 
@@ -37,11 +51,14 @@ def main():
         sys.stdout.write("$ ")
         sys.stdout.flush()
         command, *args = input().split(" ")
+
         if command in builtins:
             builtins[command](args)
             continue
+
         elif executable := locate_executable(command):
             subprocess.run([executable, *args])
+
         else:
             print(f"{command}: command not found")
         sys.stdout.flush()

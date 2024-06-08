@@ -7,8 +7,8 @@ def main():
         sys.stdout.write("$ ")
         sys.stdout.flush()
 
-        user_input = input()
-        args = user_input.split(" ")
+        cmd = input()
+        args = cmd.split(" ")
 
         # exit
         if args[0] == "exit":
@@ -18,6 +18,9 @@ def main():
         # echo
         elif args[0] == "echo":
             print(" ".join(args[1:]))
+
+        else:
+            print('{0}: command not found'.format(cmd))
 
 if __name__ == "__main__":
     main()

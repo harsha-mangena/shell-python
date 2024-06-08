@@ -17,7 +17,7 @@ def main():
         
         # echo
         elif args[0] == "echo":
-            print(" ".join(args))
+            print(" ".join(args[1:]))
 
 if __name__ == "__main__":
     main()

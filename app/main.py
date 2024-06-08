@@ -33,7 +33,7 @@ def handle_cd(args):
     try:
         os.chdir(path=dir)
     except FileNotFoundError:
-        print("cd: {}: No Such file or directory".format(dir))
+        print(f'cd: {0}: No Such file or directory'.format(dir))
 
 
 

@@ -28,12 +28,10 @@ def handle_pwd(args):
     print(os.getcwd())
 
 def handle_cd(args):
-    dir = args[0] if len(args[0]) >=2 else '' 
-
     try:
-        os.chdir(path=dir)
+        os.chdir(" ".join(args[1:]))
     except FileNotFoundError:
-        print("{0}: No Such file or directory".format(dir))
+        print(" ".join(args) + ": No such file or directory")
 
 
 

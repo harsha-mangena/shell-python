@@ -6,9 +6,8 @@ def main():
     print("Logs from your program will appear here!")
 
     # Uncomment this block to pass the first stage
-    while True:
-        sys.stdout.write("$ ")
-        sys.stdout.flush()
+    sys.stdout.write("$")
+    sys.stdout.flush()
 
     # Wait for user input
     input()

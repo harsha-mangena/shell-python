@@ -18,6 +18,10 @@ def main():
         if cmd == "exit 0":
             break
     
+        # Echo
+        if cmd.startswith("echo "):
+            print(cmd[4:])
+
         print("{}: command not found".format(cmd))
         continue
         

@@ -30,9 +30,16 @@ def handle_pwd(args):
 
 def handle_cd(args):
     cwd = getcwd()
-    path = args[0] if len(args[0]) >= 2 else "."
+    path = args[0] if len(args[0]) >= 2 else "~"
+
     try:
-        chdir(os.path.join(cwd, path))
+        if path == "~":
+            hd = os.environ["HOME"]
+
+            if os.path.isdir(hd):
+                chdir(hd)
+        else:
+            chdir(os.path.join(cwd, path))
 
     except FileNotFoundError:
         print(f"cd: {path}: No such file or directory")

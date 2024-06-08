@@ -3,7 +3,7 @@ import sys
 
 def main():
 
-    sys.stdout.write("$")
+    sys.stdout.write("$ ")
     sys.stdout.flush()
 
     # Wait for user input

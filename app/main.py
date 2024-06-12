@@ -4,18 +4,22 @@ import subprocess
 import sys
 from typing import Optional
 
+
 def locate_executable(command) -> Optional[str]:
     path = os.environ.get("PATH", "")
     for directory in path.split(":"):
         file_path = os.path.join(directory, command)
         if os.path.isfile(file_path) and os.access(file_path, os.X_OK):
             return file_path
-        
+
+
 def handle_exit(args):
     sys.exit(int(args[0]) if args else 0)
 
+
 def handle_echo(args):
     print(" ".join(args))
+
 
 def handle_type(args):
     if args[0] in builtins:
@@ -25,8 +29,10 @@ def handle_type(args):
     else:
         print(f"{args[0]} not found")
 
+
 def handle_pwd(args):
     print(getcwd())
+
 
 def handle_cd(args):
     cwd = getcwd()
@@ -43,7 +49,6 @@ def handle_cd(args):
 
     except FileNotFoundError:
         print(f"cd: {path}: No such file or directory")
-
 
 
 builtins = {

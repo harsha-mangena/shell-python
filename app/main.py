@@ -3,6 +3,7 @@ from os import getcwd, chdir
 import subprocess
 import sys
 from typing import Optional
+from security import safe_command
 
 
 def locate_executable(command) -> Optional[str]:
@@ -71,7 +72,7 @@ def main():
             continue
 
         elif executable := locate_executable(command):
-            subprocess.run([executable, *args])
+            safe_command.run(subprocess.run, [executable, *args])
 
         else:
             print(f"{command}: command not found")
